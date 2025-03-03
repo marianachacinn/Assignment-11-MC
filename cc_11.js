@@ -64,3 +64,20 @@ const library = new Library();
 library.addBook(book1);
 library.listBooks();
 // Expected output: "Title: The Great Gatsby, Author: F. Scott Fitzgerald, ISBN: 123456, Copies: 4"
+
+//task 4
+console.log('Task 4: Implementing Book Borrowing')
+Library.prototype.lendBook = function (borrowerId, isbn) {
+    const borrower = this.borrowers.find(b => b.borrowerId === borrowerId);//check if the book exist
+    const book = this.books.find(b => b.isbn === isbn);
+
+    if (borrower && book && book.copies > 0) {// if found then it can be borrowed
+        book.updateCopies(-1); //when borrowed then removes the book from inventory
+        borrower.borrowBook(book.title);
+    }
+};//Test Cases:
+library.lendBook(201, 123456);
+console.log(book1.getDetails());
+// Expected output: "Title: The Great Gatsby, Author: F. Scott Fitzgerald, ISBN: 123456, Copies: 3"
+console.log(borrower1.borrowedBooks);
+// Expected output: ["The Great Gatsby"]
